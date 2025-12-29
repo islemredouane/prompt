@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>prompt لإنشاء صورة ترند إحترافية</title>
+<title>كيفاه تخدم فوطو ليك كيما هذي</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -69,6 +69,7 @@ body {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 22px;
+  height: 80vh;
   padding: 26px;
   backdrop-filter: blur(18px);
   box-shadow: 0 40px 90px rgba(0,0,0,.6);
@@ -106,11 +107,12 @@ body {
 .editor {
   margin-top: 16px;
   position: relative;
+  height:70%
 }
 
 textarea {
   width: 100%;
-  height: 260px;
+  height: 95%;
   padding: 18px 18px 18px 54px;
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -133,8 +135,8 @@ textarea:focus {
   position: absolute;
   top: 14px;
   left: 14px;
-  width: 38px;
-  height: 38px;
+  width: 50px;
+  height: 50px;
   border-radius: 12px;
   background: rgba(15,23,42,.9);
   border: 1px solid var(--border);
@@ -249,7 +251,7 @@ textarea::-webkit-scrollbar-thumb:hover {
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   textarea {
-    height: 220px;
+    height: 90%;
   }
 
   .actions {
@@ -416,4 +418,3 @@ function resetPrompt() {
 
 </body>
 </html>
-
