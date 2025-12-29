@@ -1,86 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Prompt Copier</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كيفاه تخدم فوطو ليك كيما هذي</title>
 
-    body {
-      min-height: 100vh;
-      margin: 0;
-      background: #0f172a;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .container {
-      width: 90%;
-      max-width: 700px;
-      background: #020617;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
+<style>
+:root {
+  --bg: #020617;
+  --panel: rgba(15,23,42,.88);
+  --border: rgba(255,255,255,.08);
+  --primary: #6366f1;
+  --primary-soft: rgba(99,102,241,.25);
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --success: #22c55e;
+}
 
-    h1 {
-      margin-bottom: 12px;
-      font-size: 22px;
-      text-align: center;
-    }
+* {
+  box-sizing: border-box;
+  font-family: Inter, system-ui, sans-serif;
+}
 
-    textarea {
-      width: 100%;
-      height: 200px;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      resize: none;
-      font-size: 14px;
-      background: #0f172a;
-      color: #e5e7eb;
-      outline: none;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1000px circle at top, #1e293b, transparent),
+    var(--bg);
+  color: var(--text);
+}
 
-    button {
-      margin-top: 12px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #22c55e;
-      color: #022c22;
-      font-weight: bold;
-      transition: 0.2s;
-    }
+/* ===== PAGE LAYOUT ===== */
+.page {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
 
-    button:hover {
-      background: #16a34a;
-    }
+.container {
+  width: 100%;
+  max-width: 900px;
+}
 
-    .copied {
-      text-align: center;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #22c55e;
-      display: none;
-    }
-  </style>
+/* ===== TITLE ===== */
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ===== WORKSPACE ===== */
+.workspace {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 26px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 40px 90px rgba(0,0,0,.6);
+  animation: enter .5s ease;
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: #c7d2fe;
+}
+
+/* ===== TEXTAREA ===== */
+.editor {
+  margin-top: 16px;
+  position: relative;
+}
+
+textarea {
+  width: 100%;
+  height: 260px;
+  padding: 18px 18px 18px 54px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(2,6,23,.75);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.7;
+  resize: none;
+  outline: none;
+  transition: .2s;
+}
+
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary), 0 0 30px var(--primary-soft);
+}
+
+/* Copy icon */
+.copy-btn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(15,23,42,.9);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.copy-btn:hover {
+  background: var(--primary);
+  transform: scale(1.05);
+}
+
+/* ===== META ===== */
+.meta {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ===== ACTIONS ===== */
+.actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--primary), #818cf8);
+  color: white;
+  box-shadow: 0 16px 35px rgba(99,102,241,.45);
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 45px rgba(99,102,241,.6);
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.secondary:hover {
+  border-color: var(--primary);
+  color: var(--text);
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #020617;
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  border-radius: 14px;
+  color: var(--success);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: .25s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+textarea {
+  resize: none;
+  overflow-y: auto;
+  scrollbar-width: thin;                 /* Firefox */
+  scrollbar-color: #6366f1 transparent;  /* لون السكروول */
+}
+
+/* Chrome, Edge, Safari */
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #6366f1;
+  border-radius: 10px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  textarea {
+    height: 220px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+</style>
 </head>
+
 <body>
 
+<div class="page">
   <div class="container">
-    <h1>📋 Prompt to Copy</h1>
 
-    <textarea id="prompt">
-Ultra-realistic commercial studio portrait, 1:1 aspect ratio.
+    <!-- TITLE -->
+    <div class="hero">
+      <h1>prompt لإنشاء صورة ترند إحترافية</h1>
+    </div>
+
+    <!-- WORKSPACE -->
+    <div class="workspace">
+      <div class="header">
+        <h2>الأمر</h2>
+        <span class="badge">يحفظ تلقائياً</span>
+      </div>
+
+      <div class="editor">
+        <textarea id="prompt">
+            Ultra-realistic commercial studio portrait, 1:1 aspect ratio.
 
 Hyper-realistic photography, center-weighted composition, circular-crop safe.
 Use the uploaded user photo as the ONLY identity reference.
@@ -159,27 +361,58 @@ No bright or busy background
 No neon colors, no blue tones
 
 No animals or mascots
-    </textarea>
+        </textarea>
 
-    <button onclick="copyPrompt()">Copy Prompt</button>
-    <div class="copied" id="copiedText">✅ Copied!</div>
+        <div class="copy-btn" onclick="copyPrompt()" title="نسخ البرومبت">📋</div>
+      </div>
+
+      <div class="meta">
+        <span id="counter">0 حرف • 0 كلمة</span>
+        <span>قابل للتعديل</span>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="copyPrompt()">نسخ الأمر</button>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <script>
-    function copyPrompt() {
-      const textarea = document.getElementById("prompt");
-      textarea.select();
-      textarea.setSelectionRange(0, 99999);
-      navigator.clipboard.writeText(textarea.value);
+<div class="toast" id="toast">تم نسخ الأمر</div>
 
-      const copied = document.getElementById("copiedText");
-      copied.style.display = "block";
+<script>
+const textarea = document.getElementById("prompt");
+const counter = document.getElementById("counter");
+const toast = document.getElementById("toast");
 
-      setTimeout(() => {
-        copied.style.display = "none";
-      }, 1500);
-    }
-  </script>
+textarea.value = localStorage.getItem("prompt") || textarea.value;
+updateCounter();
+
+textarea.addEventListener("input", () => {
+  localStorage.setItem("prompt", textarea.value);
+  updateCounter();
+});
+
+function updateCounter() {
+  const chars = textarea.value.length;
+  const words = textarea.value.trim().split(/\s+/).filter(Boolean).length;
+  counter.textContent = `${chars} حرف • ${words} كلمة`;
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(textarea.value);
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 1500);
+}
+
+function resetPrompt() {
+  if (!confirm("تحب تمسح البرومبت؟")) return;
+  textarea.value = "";
+  localStorage.removeItem("prompt");
+  updateCounter();
+}
+</script>
 
 </body>
 </html>
